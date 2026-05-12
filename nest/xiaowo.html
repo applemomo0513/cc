@@ -72,6 +72,16 @@ color: var(--text);
 .logo .tu {
 position: relative;
 display: inline-block;
+/* 刀字头渐变透明，让 CSS 耳朵替代 */
+background: linear-gradient(to bottom,
+  transparent 0%,
+  transparent 26%,
+  rgba(92,74,74,0.25) 29%,
+  var(--text) 32%,
+  var(--text) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 
 /* ── rabbit ears ── */
