@@ -969,14 +969,14 @@ for (var i = 0; i < 12; i++) {
 
 // ── static elements ──
 var flowers = [
-  { x: 55, y: 236, type: 0, phase: 0 },
+  { x: 55, y: 243, type: 0, phase: 0 },
   { x: 82, y: 243, type: 1, phase: 1.2 },
   { x: 108, y: 238, type: 3, phase: 2.1 },
   { x: 350, y: 240, type: 2, phase: 0.4 },
   { x: 375, y: 234, type: 0, phase: 1.8 },
   { x: 395, y: 246, type: 1, phase: 2.5 },
   { x: 420, y: 238, type: 3, phase: 0.9 },
-  { x: 445, y: 243, type: 0, phase: 1.5 },
+  { x: 330, y: 242, type: 0, phase: 1.5 },
   { x: 170, y: 244, type: 2, phase: 0.3 },
   { x: 140, y: 240, type: 1, phase: 2.0 },
   { x: 265, y: 244, type: 0, phase: 0.6 },
@@ -984,15 +984,23 @@ var flowers = [
 ];
 
 var grasses = [];
-for (var i = 0; i < 18; i++) {
-  grasses.push({
-    x: 15 + Math.random() * 450,
-    y: 242 + Math.floor(Math.random() * 8),
-    h: 3 + Math.floor(Math.random() * 5),
-    phase: Math.random() * Math.PI * 2,
-    variant: Math.floor(Math.random() * 3)
-  });
-}
+// 只在左右边缘生成草丛，避开花朵区域
+var grassZones = [
+  { xMin: 10, xMax: 45, count: 3 },
+  { xMin: 440, xMax: 470, count: 3 },
+  { xMin: 300, xMax: 340, count: 2 }
+];
+grassZones.forEach(function(z) {
+  for (var i = 0; i < z.count; i++) {
+    grasses.push({
+      x: z.xMin + Math.random() * (z.xMax - z.xMin),
+      y: 244 + Math.floor(Math.random() * 6),
+      h: 3 + Math.floor(Math.random() * 4),
+      phase: Math.random() * Math.PI * 2,
+      variant: 0
+    });
+  }
+});
 
 var rocks = [
   { x: 130, y: 252, w: 7, h: 5 },
