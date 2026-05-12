@@ -7,6 +7,12 @@
 <title>兔子的窝</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
 <style>
+@font-face {
+font-family: 'RabbitFont';
+src: url('fonds/my-font.ttf') format('truetype');
+font-display: swap;
+}
+
 :root {
 --cream: #faf7f2;
 --cream2: #f5f0e8;
@@ -56,11 +62,63 @@ padding: 60px 0 40px;
 }
 
 .logo {
-font-family: 'Noto Serif SC', serif;
+font-family: 'RabbitFont', 'Noto Serif SC', serif;
 font-size: 2.6rem;
 font-weight: 300;
 letter-spacing: 0.15em;
 color: var(--text);
+}
+
+.logo .tu {
+position: relative;
+display: inline-block;
+}
+
+/* ── rabbit ears ── */
+.logo .tu::before,
+.logo .tu::after {
+content: '';
+position: absolute;
+bottom: 82%;
+width: 0.42rem;
+height: 1.1rem;
+background: #fce8ed;
+border: 2px solid var(--pink);
+border-bottom: none;
+border-radius: 50% 50% 20% 20%;
+transform-origin: bottom center;
+}
+
+.logo .tu::before {
+left: 18%;
+transform: rotate(-14deg);
+animation: earTwitchL 4s ease-in-out infinite;
+}
+
+.logo .tu::after {
+right: 18%;
+transform: rotate(14deg);
+animation: earTwitchR 4s ease-in-out infinite;
+}
+
+/* inner ear */
+.logo .tu::before,
+.logo .tu::after {
+box-shadow: inset 2px 2px 0 #f4c8d4;
+}
+
+@keyframes earTwitchL {
+0%, 94%, 100% { transform: rotate(-14deg); }
+95% { transform: rotate(-22deg); }
+96% { transform: rotate(-10deg); }
+97% { transform: rotate(-16deg); }
+}
+
+@keyframes earTwitchR {
+0%, 94%, 100% { transform: rotate(14deg); }
+95% { transform: rotate(22deg); }
+96% { transform: rotate(10deg); }
+97% { transform: rotate(16deg); }
 }
 
 .tagline {
@@ -464,7 +522,7 @@ letter-spacing: 1px;
 <div class="wrap">
 
 <header>
-<div class="logo">兔子的窝</div>
+<div class="logo"><span class="tu">兔</span>子的窝</div>
 <div class="tagline">一个软软的、安静的地方 ♡</div>
 </header>
 
