@@ -969,18 +969,18 @@ for (var i = 0; i < 12; i++) {
 
 // ── static elements ──
 var flowers = [
-  { x: 55, y: 228, type: 0, phase: 0 },
-  { x: 82, y: 235, type: 1, phase: 1.2 },
-  { x: 108, y: 230, type: 3, phase: 2.1 },
-  { x: 350, y: 232, type: 2, phase: 0.4 },
-  { x: 375, y: 226, type: 0, phase: 1.8 },
-  { x: 395, y: 238, type: 1, phase: 2.5 },
-  { x: 420, y: 230, type: 3, phase: 0.9 },
-  { x: 445, y: 235, type: 0, phase: 1.5 },
-  { x: 170, y: 236, type: 2, phase: 0.3 },
-  { x: 140, y: 232, type: 1, phase: 2.0 },
-  { x: 265, y: 236, type: 0, phase: 0.6 },
-  { x: 290, y: 234, type: 3, phase: 2.8 }
+  { x: 55, y: 236, type: 0, phase: 0 },
+  { x: 82, y: 243, type: 1, phase: 1.2 },
+  { x: 108, y: 238, type: 3, phase: 2.1 },
+  { x: 350, y: 240, type: 2, phase: 0.4 },
+  { x: 375, y: 234, type: 0, phase: 1.8 },
+  { x: 395, y: 246, type: 1, phase: 2.5 },
+  { x: 420, y: 238, type: 3, phase: 0.9 },
+  { x: 445, y: 243, type: 0, phase: 1.5 },
+  { x: 170, y: 244, type: 2, phase: 0.3 },
+  { x: 140, y: 240, type: 1, phase: 2.0 },
+  { x: 265, y: 244, type: 0, phase: 0.6 },
+  { x: 290, y: 242, type: 3, phase: 2.8 }
 ];
 
 var grasses = [];
@@ -1008,13 +1008,13 @@ var bushes = [
 
 var butterfly = { x: 120, y: 170, phase: 0 };
 
-var fencePosts = [
-  { x: 16, y: 208 },
-  { x: 462, y: 208 }
+var sideTrees = [
+  { x: 38, y: 188 },
+  { x: 444, y: 185 }
 ];
 
 var cat = {
-  x: 250, y: 218,
+  x: 250, y: 238,
   state: 'sit', frame: 0, frameTimer: 0,
   dir: -1, stateTimer: 0,
   eyeBlink: 0, blinkTimer: 0, tailPhase: 0
@@ -1046,12 +1046,12 @@ function drawCloud(x, y, s) {
 }
 
 function drawGround() {
-  // base
+  // base grass
   ctx.fillStyle = P.grass[0];
   ctx.fillRect(0, 245, W, H - 245);
   // darker rim
   ctx.fillStyle = P.grass[2];
-  ctx.fillRect(0, 245, W, 5);
+  ctx.fillRect(0, 245, W, 4);
   // highlight patches
   ctx.fillStyle = P.grass[3];
   ctx.fillRect(24, 250, 44, 16);
@@ -1061,26 +1061,6 @@ function drawGround() {
   ctx.fillStyle = P.grass[2];
   ctx.fillRect(340, 250, 40, 14);
   ctx.fillRect(50, 253, 28, 10);
-
-  // winding dirt path
-  ctx.fillStyle = P.path[0];
-  ctx.fillRect(0, 266, 70, 18);
-  ctx.fillRect(52, 260, 64, 22);
-  ctx.fillRect(98, 255, 54, 24);
-  ctx.fillRect(136, 252, 46, 26);
-  ctx.fillRect(165, 254, 36, 24);
-  ctx.fillRect(188, 258, 26, 22);
-  // path edge
-  ctx.fillStyle = P.path[2];
-  ctx.fillRect(0, 266, 70, 2);
-  ctx.fillRect(52, 260, 64, 2);
-  ctx.fillRect(98, 255, 54, 2);
-  ctx.fillRect(136, 252, 46, 2);
-
-  // dirt patches
-  ctx.fillStyle = P.dirt[0];
-  ctx.fillRect(290, 257, 30, 9);
-  ctx.fillRect(415, 259, 22, 7);
 }
 
 function drawShadows() {
@@ -1089,13 +1069,13 @@ function drawShadows() {
   ctx.fillRect(28, 247, 42, 7);     // bush left
   ctx.fillRect(410, 245, 50, 7);    // bush right
   ctx.fillRect(cat.x - 5, cat.y + 8, 16, 5); // cat
-  fencePosts.forEach(function(fp) {
-    ctx.fillRect(fp.x + 2, 233, 5, 12);
+  sideTrees.forEach(function(st) {
+    ctx.fillRect(st.x - 5, st.y + 78, 12, 6);
   });
 }
 
 function drawTree(sway) {
-  var tx = 230, ty = 140;
+  var tx = 230, ty = 155;
   var s = sway;
 
   // trunk dark outline
@@ -1199,18 +1179,50 @@ function drawRocks() {
   });
 }
 
-function drawFencePosts() {
-  fencePosts.forEach(function(fp) {
+function drawSideTrees(time) {
+  sideTrees.forEach(function(st) {
+    var sway = Math.sin(time * 1.8 + st.x) * windStrength * 2;
+    var tx = st.x, ty = st.y;
+
+    // trunk
     ctx.fillStyle = P.trunk[0];
-    ctx.fillRect(fp.x + 2, fp.y - 4, 5, 40);
-    ctx.fillStyle = P.fence;
-    ctx.fillRect(fp.x, fp.y - 6, 5, 42);
-    ctx.fillStyle = P.fencePost;
-    ctx.fillRect(fp.x + 1, fp.y - 4, 2, 36);
-    ctx.fillRect(fp.x - 1, fp.y - 8, 7, 4);
-    // cross beam
-    ctx.fillStyle = P.fence;
-    ctx.fillRect(fp.x + 2, fp.y - 10, 8, 4);
+    ctx.fillRect(tx - 3, ty + 24, 7, 56);
+    ctx.fillStyle = P.trunk[1];
+    ctx.fillRect(tx - 2, ty + 24, 5, 54);
+    ctx.fillStyle = P.trunk[2];
+    ctx.fillRect(tx - 1, ty + 26, 2, 48);
+
+    // roots
+    ctx.fillStyle = P.trunk[0];
+    ctx.fillRect(tx - 7, ty + 74, 8, 5);
+    ctx.fillRect(tx + 2, ty + 76, 6, 4);
+
+    ctx.save();
+    ctx.translate(tx, ty + 24);
+    var s = sway;
+
+    // Small canopy — 4 layers
+    ctx.fillStyle = P.leaf[0];
+    leafBlob(-12 + s*0.1, -2, 28, 10);
+    leafBlob(-8 + s*0.15, 2, 22, 8);
+
+    ctx.fillStyle = P.leaf[1];
+    leafBlob(-14 + s*0.15, -10, 30, 12);
+    leafBlob(-10 + s*0.2, -4, 26, 10);
+
+    ctx.fillStyle = P.leaf[2];
+    leafBlob(-14 + s*0.25, -20, 30, 12);
+    leafBlob(-10 + s*0.3, -14, 26, 10);
+
+    ctx.fillStyle = P.leaf[3];
+    leafBlob(-12 + s*0.35, -28, 26, 10);
+    leafBlob(-8 + s*0.4, -24, 20, 8);
+
+    ctx.fillStyle = P.leaf[4];
+    leafBlob(-10 + s*0.45, -34, 20, 8);
+    leafBlob(-6 + s*0.5, -30, 14, 6);
+
+    ctx.restore();
   });
 }
 
@@ -1526,7 +1538,7 @@ function draw(timestamp) {
   drawTree(treeSway);
 
   drawRocks();
-  drawFencePosts();
+  drawSideTrees(time);
 
   grasses.forEach(function(g) { drawGrassTuft(g, time); });
   flowers.forEach(function(f) { drawFlower(f.x, f.y, f.type, f.phase, time); });
@@ -1534,13 +1546,6 @@ function draw(timestamp) {
   drawButterfly(time);
   drawCat(cat, time);
 
-  // warm light from top-left
-  var lg = ctx.createLinearGradient(0, 0, W * 0.6, H * 0.4);
-  lg.addColorStop(0, 'rgba(255,240,210,0.07)');
-  lg.addColorStop(0.5, 'rgba(255,230,190,0.02)');
-  lg.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = lg;
-  ctx.fillRect(0, 0, W, H);
 
   requestAnimationFrame(draw);
 }
