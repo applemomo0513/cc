@@ -984,11 +984,11 @@ var flowers = [
 ];
 
 var grasses = [];
-for (var i = 0; i < 45; i++) {
+for (var i = 0; i < 18; i++) {
   grasses.push({
     x: 15 + Math.random() * 450,
-    y: 240 + Math.floor(Math.random() * 16),
-    h: 5 + Math.floor(Math.random() * 10),
+    y: 242 + Math.floor(Math.random() * 8),
+    h: 3 + Math.floor(Math.random() * 5),
     phase: Math.random() * Math.PI * 2,
     variant: Math.floor(Math.random() * 3)
   });
@@ -1024,9 +1024,8 @@ var cat = {
 
 function drawSky() {
   var grad = ctx.createLinearGradient(0, 0, 0, 248);
-  grad.addColorStop(0, P.skyTop);
-  grad.addColorStop(0.55, '#b8d8e8');
-  grad.addColorStop(1, P.skyBot);
+  grad.addColorStop(0, '#B4D8F5');
+  grad.addColorStop(1, '#F0F8FF');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, 248);
 }
@@ -1046,21 +1045,10 @@ function drawCloud(x, y, s) {
 }
 
 function drawGround() {
-  // base grass
   ctx.fillStyle = P.grass[0];
   ctx.fillRect(0, 245, W, H - 245);
-  // darker rim
   ctx.fillStyle = P.grass[2];
   ctx.fillRect(0, 245, W, 4);
-  // highlight patches
-  ctx.fillStyle = P.grass[3];
-  ctx.fillRect(24, 250, 44, 16);
-  ctx.fillRect(280, 252, 70, 12);
-  ctx.fillRect(430, 249, 36, 10);
-  // darker patches
-  ctx.fillStyle = P.grass[2];
-  ctx.fillRect(340, 250, 40, 14);
-  ctx.fillRect(50, 253, 28, 10);
 }
 
 function drawShadows() {
@@ -1280,19 +1268,11 @@ function drawFlower(x, y, type, phase, time) {
 }
 
 function drawGrassTuft(g, time) {
-  var sway = Math.sin(time * 2.5 + g.phase) * windStrength * 3;
+  var sway = Math.sin(time * 2 + g.phase) * windStrength * 2;
   var h = g.h;
-  // dark blade
-  ctx.fillStyle = P.grass[2];
-  ctx.fillRect(g.x + 1, g.y - 1, 2, -h + 1);
-  // main blade
   ctx.fillStyle = P.grass[1];
-  ctx.fillRect(g.x + (sway*0.7|0), g.y - h, 2, -3);
-  ctx.fillRect(g.x - 2 - (sway*0.4|0), g.y - h + 3, 2, -2);
-  if (g.variant === 1) {
-    ctx.fillStyle = P.grass[3];
-    ctx.fillRect(g.x + 2 + (sway*0.5|0), g.y - h + 1, 2, -4);
-  }
+  ctx.fillRect(g.x + (sway*0.6|0), g.y - h, 2, -3);
+  ctx.fillRect(g.x - 1 - (sway*0.3|0), g.y - h + 2, 2, -2);
 }
 
 function drawButterfly(time) {
